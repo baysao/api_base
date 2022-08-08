@@ -10,4 +10,3 @@ sed "s/_TYPE_/$TYPE/g" -i /etc/supervisor/conf.d/${TYPE}.conf
 _site_root=$(echo $SITE_ROOT | sed 's/\//\\\//g')
 sed "s/_SITE_ROOT_/$_site_root/g" -i /etc/supervisor/conf.d/${TYPE}.conf
 supervisorctl update
-/usr/bin/supervisord -n
