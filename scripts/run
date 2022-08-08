@@ -1,0 +1,13 @@
+#!/bin/bash
+TYPE=api
+SITE_ROOT=$(realpath $(dirname $0)/..)
+cd $SITE_ROOT
+ln -sf /massbit/massbitroute/app/gbc /massbit/massbitroute/app/src/gbc
+ln -sf /massbit/massbitroute/app/gbc/bin/openresty /usr/local/openresty
+mkdir -p /etc/supervisor/conf.d
+cp supervisor.conf /etc/supervisor/conf.d/${TYPE}.conf
+sed "s/_TYPE_/$TYPE/g" -i /etc/supervisor/conf.d/${TYPE}.conf
+_site_root=$(echo $SITE_ROOT | sed 's/\//\\\//g')
+sed "s/_SITE_ROOT_/$_site_root/g" -i /etc/supervisor/conf.d/${TYPE}.conf
+supervisorctl update
+/usr/bin/supervisord -n
